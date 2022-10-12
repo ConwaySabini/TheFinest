@@ -1,4 +1,4 @@
-import NxHome from '../components/NxHome'; import styles from './index.module.css';
+import NxHome from '../components/NxHome';
 
 export function Index() {
   /*
