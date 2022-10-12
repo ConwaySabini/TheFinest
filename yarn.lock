@@ -1734,7 +1734,7 @@
     rxjs "^6.5.4"
     tslib "^2.3.0"
 
-"@nrwl/storybook@14.8.4":
+"@nrwl/storybook@14.8.4", "@nrwl/storybook@^14.8.4":
   version "14.8.4"
   resolved "https://registry.yarnpkg.com/@nrwl/storybook/-/storybook-14.8.4.tgz#e5c597ce8f726435449534deb8b472dabf0763cf"
   integrity sha512-oItBV1TwjF4wch9ExgXd66x5EPYm1eOfCGQ6nIHM11wpAbJhHoyqrr38brBqxJ+xSOKiC6x4Crh5WLEAdShDmQ==

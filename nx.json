@@ -77,5 +77,8 @@
       }
     }
   },
-  "defaultProject": "client"
+  "defaultProject": "client",
+  "cli": {
+    "packageManager": "yarn"
+  }
 }

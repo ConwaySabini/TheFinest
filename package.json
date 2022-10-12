@@ -25,6 +25,7 @@
     "@nrwl/linter": "14.8.4",
     "@nrwl/nx-cloud": "latest",
     "@nrwl/react": "14.8.4",
+    "@nrwl/storybook": "^14.8.4",
     "@nrwl/web": "14.8.4",
     "@nrwl/workspace": "14.8.4",
     "@testing-library/react": "13.4.0",
