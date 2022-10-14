@@ -1,7 +1,7 @@
-import NxHome from '../components/NxHome';
-import NavBar from '../components/NavBar';
 import { useState } from 'react';
 import Home from '../components/Home';
+import NavBar from '../components/NavBar';
+import NxHome from '../components/NxHome';
 
 export function Index() {
   const [theme, setTheme] = useState('dark');
