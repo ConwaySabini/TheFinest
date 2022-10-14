@@ -1,0 +1,11 @@
+.parent {
+display: grid;
+grid-template-columns: 2fr 8fr 2fr;
+grid-template-rows: 1fr;
+grid-column-gap: 10px;
+grid-row-gap: 0px;
+}
+
+.leftCol { grid-area: 1 / 1 / 2 / 2; }
+.middle { grid-area: 1 / 2 / 2 / 3; }
+.rightCol { grid-area: 1 / 3 / 2 / 4; }

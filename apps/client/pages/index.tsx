@@ -1,13 +1,16 @@
 import NxHome from '../components/NxHome';
+import NavBar from '../components/NavBar';
+import { useState } from 'react';
+import Home from '../components/Home';
 
 export function Index() {
-  /*
-   * Replace the elements below with your own.
-   *
-   * Note: The corresponding styles are in the ./index.css file.
-   */
+  const [theme, setTheme] = useState('dark');
+
   return (
-    <NxHome />
+    <div data-theme={theme}>
+      <NavBar setTheme={setTheme} />
+      <Home />
+    </div>
   );
 }
 

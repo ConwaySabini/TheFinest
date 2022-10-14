@@ -5,11 +5,12 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nrwl/cypress:cypress",
+      "executor": "@nrwl/run-commands",
       "options": {
-        "cypressConfig": "apps/client-e2e/cypress.config.ts",
-        "devServerTarget": "client:serve:development",
-        "testingType": "e2e"
+        "commands": [
+          "playwright test"
+        ],
+        "cwd": "apps/client-e2e"
       },
       "configurations": {
         "production": {
@@ -19,12 +20,18 @@
     },
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["apps/client-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": [
+          "apps/client-e2e/**/*.{js,ts}"
+        ]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["client"]
+  "implicitDependencies": [
+    "client"
+  ]
 }
