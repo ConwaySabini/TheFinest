@@ -2,6 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "rootDir": ".",
+    "outDir": "./build",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
