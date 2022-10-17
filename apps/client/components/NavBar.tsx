@@ -92,11 +92,11 @@ const NavBar = ({ setTheme }: NavBarProps) => {
                 <li>
                   <button onClick={() => setTheme('cupcake')}>Cupcake</button>
                 </li>
-                <li>
+                {/* <li>
                   <button onClick={() => setTheme('bumblebee')}>
                     Bumblebee
                   </button>
-                </li>
+                </li> */}
                 <li>
                   <button onClick={() => setTheme('emerald')}>Emerald</button>
                 </li>
@@ -181,9 +181,9 @@ const NavBar = ({ setTheme }: NavBarProps) => {
                 <li>
                   <button onClick={() => setTheme('coffee')}>Coffee</button>
                 </li>
-                <li>
+                {/* <li>
                   <button onClick={() => setTheme('winter')}>Winter</button>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>

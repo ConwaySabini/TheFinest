@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+# typescript
+**/.build/*
+
 # dependencies
 node_modules
 
@@ -45,6 +48,3 @@ Thumbs.db
 **/test-results/
 **/playwright-report/
 **/playwright/.cache/
-
-# typescript
-**/.build/
