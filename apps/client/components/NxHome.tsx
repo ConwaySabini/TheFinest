@@ -1,4 +1,4 @@
-import styles from '../styles/index.module.css';
+import styles from '@/styles/index.module.css';
 
 const NxHome = () => {
   return (
@@ -404,7 +404,7 @@ const NxHome = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default NxHome;

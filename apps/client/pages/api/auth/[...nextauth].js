@@ -5,6 +5,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
 import prisma from '../../../../../libs/prismadb';
+const bcrypt = require('bcrypt');
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -12,6 +13,7 @@ export const authOptions = {
   providers: [
     // Github email address is always returned,
     // even if the user doesn't have a public email address on their profile.
+    // Github only allows one callback URL per Client ID/Client Secret
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
@@ -19,13 +21,14 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
-      authorization: {
-        params: {
-          prompt: 'consent',
-          access_type: 'offline',
-          response_type: 'code',
-        },
-      },
+      // TODO  to get the google refresh token on every sign in use these options
+      // authorization: {
+      //   params: {
+      //     prompt: "consent",
+      //     access_type: "offline",
+      //     response_type: "code"
+      //   }
+      // }
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -48,19 +51,86 @@ export const authOptions = {
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           return null;
-
           // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
+  jwt: {
+    maxAge: 60 * 60 * 30 * 24,
+  },
+  pages: {
+    signIn: '/auth/login',
+    newUser: '/home', // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
+  events: {
+    async signIn(message) {
+      console.log('signed in: ', message);
+    },
+    async signOut(message) {
+      console.log('signed out: ', message);
+    },
+    async createUser(message) {
+      console.log('created new user: ', message);
+    },
+    async updateUser(message) {
+      console.log('created new user: ', message);
+    },
+    async linkAccount(message) {
+      console.log('account linked: ', message);
+    },
+    async session(message) {
+      console.log('session created: ', message);
+    },
+  },
+  debug: true,
+  theme: {
+    colorScheme: 'dark', // "auto" | "dark" | "light"
+  },
+  // TODO uncomment this for production builds
+  // useSecureCookies: true,
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({ user, account, profile, email, credentials }) {
+      // TODO store google refresh token in the database which is only provided on the first sign in
+      console.log('user: ', user);
+      console.log('account: ', account);
+      console.log('profile: ', profile);
+      console.log('email: ', email);
+      console.log('credentials: ', credentials);
       if (account.provider === 'google') {
         return profile.email_verified && profile.email.endsWith('@example.com');
       }
+
       return true;
       // Do different verification for other providers that don't have `email_verified`
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith('/')) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+    async jwt({ token, account, profile }) {
+      // Persist the OAuth access_token and or the user id to the token right after signin
+      // Only the token is available afer the first callback on a new session,
+      // the other ones are only available on the first callback
+      // TODO persist data on first invocation????
+      if (account) {
+        token.accessToken = account.access_token;
+        token.id = profile.id;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      // Send properties to the client, like an access_token and user id from a provider.
+      session.accessToken = token.accessToken;
+      session.user.id = token.id;
+
+      return session;
     },
   },
 };

@@ -1,3 +1,4 @@
+import styles from '@/styles/Home.module.css';
 import { AiTwotoneSetting } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import {
@@ -7,7 +8,6 @@ import {
   FaHome,
   FaRegCommentDots,
 } from 'react-icons/fa';
-import styles from '../styles/Home.module.css';
 
 const SideBar = () => {
   return (

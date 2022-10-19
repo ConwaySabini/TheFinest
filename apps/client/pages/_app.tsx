@@ -1,10 +1,10 @@
+import AuthWrapper from '@/components/Auth/AuthWrapper';
+import '@/styles/styles.css';
 import { SessionProvider } from 'next-auth/react';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import AuthWrapper from '../components/AuthWrapper';
-import '../styles/styles.css';
 
-function CustomApp({ Component, pageProps: { session, ...pageProps } }) {
+function CustomApp({ Component, pageProps: { session, ...pageProps } }: any) {
   return (
     <>
       <Head>

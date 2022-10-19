@@ -12,7 +12,14 @@
     "isolatedModules": true,
     "incremental": true,
     "types": ["jest", "node"],
-    "outDir": ".build"
+    "outDir": ".build",
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": ["components/*"],
+      "@/styles/*": ["styles/*"],
+      "@/src/*": ["src/*"],
+      "@/hooks/*": ["hooks/*"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "next-env.d.ts"],
   "exclude": [
