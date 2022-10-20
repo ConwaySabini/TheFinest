@@ -1,4 +1,5 @@
 import styles from '@/styles/Home.module.css';
+import Link from 'next/link';
 import { AiTwotoneSetting } from 'react-icons/ai';
 import { CgProfile } from 'react-icons/cg';
 import {
@@ -19,46 +20,46 @@ const SideBar = () => {
         <ul className="menu p-4 overflow-y-auto w-100 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <li>
-            <a>
+            <Link href="">
               <FaHome />
               Home
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <FaHashtag />
               Explore
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <FaRegCommentDots />
               Messages
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <FaBookmark />
               Saved
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <FaHeart />
               Likes
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <CgProfile />
               Profile
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link href="">
               <AiTwotoneSetting />
               Settings
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

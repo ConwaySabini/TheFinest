@@ -1,10 +1,15 @@
 import ContextProvider from '@/src/Context/Context';
 import RegisterForm from './RegisterForm';
 
-const Register = () => {
+interface RegisterProps {
+  csrfToken: string;
+  providers: object;
+}
+
+const Register = ({ csrfToken, providers }: RegisterProps) => {
   return (
     <ContextProvider>
-      <RegisterForm></RegisterForm>
+      <RegisterForm csrfToken={csrfToken} providers={providers}></RegisterForm>
     </ContextProvider>
   );
 };

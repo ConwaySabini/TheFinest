@@ -1,11 +1,11 @@
+import { comparePassword } from '@/libs/auth';
+import prisma from '@/libs/prismadb';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 // Github provider only allows one callback URL per ClientID/Client Secret
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
-import prisma from '../../../../../libs/prismadb';
-const bcrypt = require('bcrypt');
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
@@ -22,13 +22,13 @@ export const authOptions = {
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_SECRET,
       // TODO  to get the google refresh token on every sign in use these options
-      // authorization: {
-      //   params: {
-      //     prompt: "consent",
-      //     access_type: "offline",
-      //     response_type: "code"
-      //   }
-      // }
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
+      },
     }),
     CredentialsProvider({
       // The name to display on the sign in form (e.g. "Sign in with...")
@@ -42,17 +42,39 @@ export const authOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        // Add logic here to look up the user from the credentials supplied
-        const user = { id: 1, name: 'J Smith', email: 'jsmith@example.com' };
-
-        if (user) {
-          // Any object returned will be saved in `user` property of the JWT
-          return user;
-        } else {
-          // If you return null then an error will be displayed advising the user to check their details.
+        // You need to provide your own logic here that takes the credentials
+        // submitted and returns either a object representing a user or value
+        // that is false/null if the credentials are invalid.
+        // prisma get user by mail
+        let user = null;
+        try {
+          user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+          });
+        } catch (e) {
+          console.log('error getting user: ', e);
           return null;
-          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
+
+        if (!user) {
+          console.log('User not found');
+          return null;
+        }
+
+        // compare given password with hashed password from database
+        const isValid = await comparePassword(
+          credentials.password,
+          user.password
+        );
+        // passwords do not match
+        if (!isValid) {
+          console.log('passwords do not match');
+          return null;
+        }
+        const name = user.firstName + ' ' + user.lastName;
+        return { email: user.email, name: name, userId: user.userId };
       },
     }),
   ],
@@ -90,8 +112,8 @@ export const authOptions = {
   theme: {
     colorScheme: 'dark', // "auto" | "dark" | "light"
   },
-  // TODO uncomment this for production builds
-  // useSecureCookies: true,
+  useSecureCookies:
+    process.env.NODE_ENV && process.env.NODE_ENV === 'production',
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       // TODO store google refresh token in the database which is only provided on the first sign in
@@ -101,13 +123,38 @@ export const authOptions = {
       console.log('email: ', email);
       console.log('credentials: ', credentials);
       if (account.provider === 'google') {
-        return profile.email_verified && profile.email.endsWith('@example.com');
+        // TODO handle google sign in
+        return profile.email_verified && profile.email.endsWith('@gmail.com');
       }
-
+      if (account.provider === 'github') {
+        // TODO handle github sign in
+        console.log('');
+      }
+      try {
+        //the user object is wrapped in another user object so extract it
+        user = user.user;
+        console.log('Sign in callback', user);
+        console.log('User id: ', user.userId);
+        if (typeof user.userId !== typeof undefined) {
+          if (user.isActive === '1') {
+            console.log('User is active');
+            return user;
+          } else {
+            console.log('User is not active');
+            return false;
+          }
+        } else {
+          console.log('User id was undefined');
+          return false;
+        }
+      } catch (err) {
+        console.error('Signin callback error:', err);
+      }
       return true;
       // Do different verification for other providers that don't have `email_verified`
     },
     async redirect({ url, baseUrl }) {
+      // TODO verify these defaults
       // Allows relative callback URLs
       if (url.startsWith('/')) return `${baseUrl}${url}`;
       // Allows callback URLs on the same origin
@@ -121,12 +168,14 @@ export const authOptions = {
       // TODO persist data on first invocation????
       if (account) {
         token.accessToken = account.access_token;
-        token.id = profile.id;
+        token.id = account.providerAccountId;
       }
       return token;
     },
     async session({ session, token, user }) {
       // Send properties to the client, like an access_token and user id from a provider.
+      // Only the session token, user, and expiry time is stored in the session table on the database
+      // TODO persist data on the server, use the userId as the key or generate a unique key yourself
       session.accessToken = token.accessToken;
       session.user.id = token.id;
 

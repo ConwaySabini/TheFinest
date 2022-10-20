@@ -1,7 +1,8 @@
 import { Context } from '@/src/Context/Context';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useContext, useRef, useState } from 'react';
-
 interface LoginFormProps {
   csrfToken: string;
   providers: object;
@@ -11,6 +12,8 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
   const { theme } = useContext(Context);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const domain = process.env.HOME_DOMAIN;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,8 +22,33 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
     if (email === '' || password === '') {
       return;
     }
-    const redirect = window.location.href + '/home';
-    //signIn('');
+    signIn('credentials', {
+      email,
+      password,
+      callbackUrl: `${window.location.origin}/home`,
+    })
+      .then(function (result) {
+        if (result.error !== null) {
+          if (result.status === 401) {
+            console.log(
+              'Your username/password combination was incorrect. Please try again'
+            );
+          } else {
+            console.log('error on login: ', result.error);
+          }
+        } else {
+          router.push(result.url);
+        }
+      })
+      .catch((err) => {
+        alert('Failed to Login: ' + err.toString());
+      });
+  };
+
+  const handleOAuthSignIn = (provider) => {
+    signIn(provider, {
+      callbackUrl: domain,
+    });
   };
 
   return (
@@ -34,18 +62,19 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
         </h2>
         <p className="text-sm text-center dark:text-gray-400">
           Dont have account?
-          <a
+          <Link
             href="/auth/register"
             rel="noopener noreferrer"
-            className="focus:underline hover:underline ml-2"
+            className="focus:underline hover:underline"
           >
-            Sign up here
-          </a>
+            &nbsp;Sign up here
+          </Link>
         </p>
         <div className="my-6 space-y-4">
           <button
             aria-label="Login with Google"
             type="button"
+            onClick={() => handleOAuthSignIn('google')}
             className="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg flex items-center justify-center w-full"
           >
             <svg
@@ -60,6 +89,7 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
           <button
             aria-label="Login with Github"
             type="button"
+            onClick={() => handleOAuthSignIn('github')}
             className="btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-lg flex items-center justify-center w-full"
           >
             <svg
@@ -78,7 +108,7 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
           <hr className="w-full dark:text-gray-400" />
         </div>
         <form
-          action="/api/auth/callback/credentials"
+          // action="/api/auth/callback/credentials"
           className="space-y-8 ng-untouched ng-pristine ng-valid"
           data-bitwarden-watching="1"
         >
@@ -101,13 +131,13 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
                 <label htmlFor="password" className="text-sm">
                   Password
                 </label>
-                <a
+                <Link
                   rel="noopener noreferrer"
                   href="#"
                   className="text-xs hover:underline dark:text-gray-400"
                 >
                   Forgot password?
-                </a>
+                </Link>
               </div>
               <input
                 type="password"

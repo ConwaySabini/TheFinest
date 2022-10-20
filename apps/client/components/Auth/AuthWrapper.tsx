@@ -2,12 +2,19 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import * as React from 'react';
+import PacmanLoader from 'react-spinners/PacmanLoader';
 
 export default function Wrapper(props) {
   const session = useSession();
   const router = useRouter();
 
-  if (
+  if (session.status === 'loading') {
+    return (
+      <div className="flex flex-row min-h-screen justify-center items-center">
+        <PacmanLoader color="#553daa" />
+      </div>
+    );
+  } else if (
     (session !== null && session?.status === 'authenticated') ||
     router.pathname === '/auth/login' ||
     router.pathname === '/auth/register'

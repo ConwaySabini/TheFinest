@@ -1,5 +1,5 @@
 import Image from 'next/image';
-
+import Link from 'next/link';
 interface NavBarProps {
   setTheme: (theme: string) => void;
 }
@@ -32,11 +32,11 @@ const NavBar = ({ setTheme }: NavBarProps) => {
           <a className="btn btn-ghost normal-case text-xl">TheFinest</a>
           <ul className="menu menu-horizontal p-0">
             <li>
-              <a>Item 1</a>
+              <Link href="/item1">Item 1</Link>
             </li>
 
             <li>
-              <a>Item 3</a>
+              <Link href="/item2">Item 3</Link>
             </li>
           </ul>
         </div>
@@ -211,10 +211,10 @@ const NavBar = ({ setTheme }: NavBarProps) => {
                 </a>
               </li>
               <li>
-                <a>Settings</a>
+                <Link href="/settings">Settings</Link>
               </li>
               <li>
-                <a>Logout</a>
+                <Link href="/logout">Logout</Link>
               </li>
             </ul>
           </div>
