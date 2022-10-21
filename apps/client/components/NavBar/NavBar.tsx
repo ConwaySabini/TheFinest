@@ -32,11 +32,11 @@ const NavBar = ({ setTheme }: NavBarProps) => {
           <a className="btn btn-ghost normal-case text-xl">TheFinest</a>
           <ul className="menu menu-horizontal p-0">
             <li>
-              <Link href="/item1">Item 1</Link>
+              <Link href="/">Item 1</Link>
             </li>
 
             <li>
-              <Link href="/item2">Item 3</Link>
+              <Link href="/">Item 3</Link>
             </li>
           </ul>
         </div>
@@ -92,11 +92,11 @@ const NavBar = ({ setTheme }: NavBarProps) => {
                 <li>
                   <button onClick={() => setTheme('cupcake')}>Cupcake</button>
                 </li>
-                {/* <li>
+                <li>
                   <button onClick={() => setTheme('bumblebee')}>
                     Bumblebee
                   </button>
-                </li> */}
+                </li>
                 <li>
                   <button onClick={() => setTheme('emerald')}>Emerald</button>
                 </li>
@@ -181,9 +181,9 @@ const NavBar = ({ setTheme }: NavBarProps) => {
                 <li>
                   <button onClick={() => setTheme('coffee')}>Coffee</button>
                 </li>
-                {/* <li>
+                <li>
                   <button onClick={() => setTheme('winter')}>Winter</button>
-                </li> */}
+                </li>
               </ul>
             </li>
           </ul>

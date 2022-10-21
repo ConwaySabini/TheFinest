@@ -1,4 +1,4 @@
-import Login from '@/components/Auth/Login';
+import LoginForm from '@/components/Auth/LoginForm';
 import { getCsrfToken, getProviders } from 'next-auth/react';
 
 interface SignInProps {
@@ -9,7 +9,7 @@ interface SignInProps {
 const SignIn = ({ csrfToken, providers }: SignInProps) => {
   return (
     <>
-      <Login csrfToken={csrfToken} providers={providers}></Login>
+      <LoginForm csrfToken={csrfToken} providers={providers}></LoginForm>
     </>
   );
 };

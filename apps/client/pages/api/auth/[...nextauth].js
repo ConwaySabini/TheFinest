@@ -124,7 +124,8 @@ export const authOptions = {
       console.log('credentials: ', credentials);
       if (account.provider === 'google') {
         // TODO handle google sign in
-        return profile.email_verified && profile.email.endsWith('@gmail.com');
+        return true;
+        //return profile.email_verified && profile.email.endsWith('@gmail.com');
       }
       if (account.provider === 'github') {
         // TODO handle github sign in

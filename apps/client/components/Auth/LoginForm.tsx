@@ -1,15 +1,14 @@
 import { Context } from '@/src/Context/Context';
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useContext, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 interface LoginFormProps {
   csrfToken: string;
   providers: object;
 }
 
 const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
-  const { theme } = useContext(Context);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
@@ -52,10 +51,7 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen"
-      data-theme={theme}
-    >
+    <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 dark:bg-gray-800 dark:text-gray-100">
         <h2 className="mb-3 text-3xl font-semibold text-center">
           Login to your account
@@ -150,6 +146,12 @@ const LoginForm = ({ csrfToken, providers }: LoginFormProps) => {
           </div>
           <button className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-lg w-full px-8 py-3 font-semibold">
             Sign In
+          </button>
+          <button
+            onClick={() => signOut()}
+            className="btn btn-primary btn-xs sm:btn-sm md:btn-md lg:btn-lg w-full px-8 py-3 font-semibold"
+          >
+            Sign Out
           </button>
         </form>
       </div>

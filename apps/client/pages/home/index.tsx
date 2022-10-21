@@ -1,12 +1,7 @@
-import HomePage from '@/components/HomePage';
-import ContextProvider from '@/src/Context/Context';
+import HomePage from '@/components/Home/HomePage';
 
 export function MainPage() {
-  return (
-    <ContextProvider>
-      <HomePage />
-    </ContextProvider>
-  );
+  return <HomePage />;
 }
 
 export default MainPage;

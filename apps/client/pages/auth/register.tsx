@@ -1,4 +1,4 @@
-import Register from '@/components/Auth/Register';
+import RegisterForm from '@/components/Auth/RegisterForm';
 import { getCsrfToken, getProviders } from 'next-auth/react';
 
 interface SignUpProps {
@@ -9,7 +9,7 @@ interface SignUpProps {
 const SignUp = ({ csrfToken, providers }: SignUpProps) => {
   return (
     <>
-      <Register csrfToken={csrfToken} providers={providers}></Register>
+      <RegisterForm csrfToken={csrfToken} providers={providers}></RegisterForm>
     </>
   );
 };

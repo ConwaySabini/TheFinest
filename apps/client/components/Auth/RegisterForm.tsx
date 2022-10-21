@@ -2,7 +2,7 @@ import { Context } from '@/src/Context/Context';
 import axios from 'axios';
 import { signIn } from 'next-auth/react';
 import Link from 'next/link';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 
 interface RegisterFormProps {
   csrfToken: string;
@@ -10,7 +10,6 @@ interface RegisterFormProps {
 }
 
 const RegisterForm = ({ csrfToken, providers }: RegisterFormProps) => {
-  const { theme } = useContext(Context);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -35,10 +34,7 @@ const RegisterForm = ({ csrfToken, providers }: RegisterFormProps) => {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen"
-      data-theme={theme}
-    >
+    <div className="flex items-center justify-center min-h-screen">
       <div className="w-full max-w-md p-4 rounded-md shadow sm:p-8 dark:bg-gray-800 dark:text-gray-100">
         <h2 className="mb-3 text-3xl font-semibold text-center">Register</h2>
         <p className="text-sm text-center dark:text-gray-400">

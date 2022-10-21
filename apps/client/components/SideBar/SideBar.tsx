@@ -20,46 +20,49 @@ const SideBar = () => {
         <ul className="menu p-4 overflow-y-auto w-100 bg-base-100 text-base-content">
           {/* <!-- Sidebar content here --> */}
           <li>
-            <Link href="">
+            <p>
               <FaHome />
-              Home
-            </Link>
+              <Link href="/home">Home</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <FaHashtag />
-              Explore
-            </Link>
+
+              <Link href="">Explore</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <FaRegCommentDots />
-              Messages
-            </Link>
+
+              <Link href="">Messages</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <FaBookmark />
-              Saved
-            </Link>
+              <Link href="">Saved</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <FaHeart />
-              Likes
-            </Link>
+              <Link href="">Likes</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <CgProfile />
-              Profile
-            </Link>
+              <Link href="">Profile</Link>
+            </p>
           </li>
           <li>
-            <Link href="">
+            <p>
               <AiTwotoneSetting />
-              Settings
-            </Link>
+
+              <Link href="">Settings</Link>
+            </p>
           </li>
         </ul>
       </div>
